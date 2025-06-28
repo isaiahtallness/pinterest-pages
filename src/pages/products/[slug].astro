@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Astro } from 'astro';
+
+const { slug } = Astro.params;
+
+const productData = await Astro.fetchContent(`/src/content/products/${slug}.json`);
+const { title, description, image, affiliate_link } = await productData.json();
+---
+
+<Layout>
+  <section class="max-w-2xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-4">{title}</h1>
+    <img src={image} alt={title} class="rounded-lg mb-4" />
+    <p class="text-lg mb-4">{description}</p>
+    <a href={affiliate_link} rel="nofollow" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" target="_blank">
+      Buy on Amazon →
+    </a>
+    <p class="text-sm mt-2 text-gray-400">#ad – I may earn a commission if you purchase through this link.</p>
+  </section>
+</Layout>
