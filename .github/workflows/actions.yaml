@@ -26,7 +26,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      # - run: npm test
+
+      # ✅ Add this step inside the build job
+      - name: Disable Jekyll for GitHub Pages
+        run: echo "" > dist/.nojekyll
 
   check:
     runs-on: ubuntu-latest
