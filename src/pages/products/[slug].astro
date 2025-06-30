@@ -19,7 +19,14 @@ export async function getStaticProps({ params }) {
   return { props: data };
 }
 
-const { title, description, image, affiliate_link } = Astro.props;
+// Destructure any new fields you'd like to expose
+const {
+  title,
+  description,
+  image,
+  affiliate_link,
+  top_reviews = []
+} = Astro.props;
 ---
 
 <Layout>
@@ -35,7 +42,6 @@ const { title, description, image, affiliate_link } = Astro.props;
         <h1 class="text-4xl font-bold text-gray-900 mb-4">{title}</h1>
 
         <div class="flex items-center mb-4">
-          <!-- ★★★★★ -->
           <div class="text-yellow-400 text-xl mr-2">
             ⭐⭐⭐⭐⭐
           </div>
@@ -59,15 +65,9 @@ const { title, description, image, affiliate_link } = Astro.props;
       </div>
     </div>
 
-    <!-- Optional trust or review section -->
-    <div class="mt-12 border-t pt-6 text-gray-600 text-sm leading-relaxed">
-      <p>
-        Looking for hands-on feedback? <br />
-        <a href="https://www.amazon.com/dp/B0163K1Z3G?tag=yourtag-20#customerReviews" target="_blank" class="underline hover:text-amber-600">
-          Read verified user reviews
-        </a>
-        or check out Pinterest boards where real users share recipes and results.
-      </p>
-    </div>
-  </section>
-</Layout>
+    {top_reviews.length > 0 && (
+      <div class="mt-12 border-t pt-6">
+        <h2 class="text-2xl font-semibold mb-4">What Customers Are Saying</h2>
+        <ul class="space-y-4">
+          {top_reviews.map((review) => (
+            <li class="bg-white shadow rounded-lg
