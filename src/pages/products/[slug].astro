@@ -32,15 +32,21 @@ export async function getStaticProps({ params }) {
   return { props: data };
 }
 
-const props = Astro.props as ProductPageProps;
+const raw = Astro.props as ProductPageProps;
+const props = {
+  ...raw,
+  top_reviews: raw.top_reviews ?? [],
+};
 ---
 <Layout>
   <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="flex flex-col lg:flex-row gap-8 items-start">
+      <!-- Product Image -->
       <div class="w-full lg:w-1/2">
         <img src={props.image} alt={props.title} class="rounded-lg shadow-lg w-full" loading="lazy" />
       </div>
 
+      <!-- Product Details -->
       <div class="w-full lg:w-1/2">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">{props.title}</h1>
 
@@ -66,7 +72,7 @@ const props = Astro.props as ProductPageProps;
       </div>
     </div>
 
-    {props.top_reviews?.length > 0 && (
+    {props.top_reviews.length > 0 && (
       <div class="mt-12 border-t pt-6">
         <h2 class="text-2xl font-semibold mb-4">What Customers Are Saying</h2>
         <ul class="space-y-4">
@@ -86,4 +92,3 @@ const props = Astro.props as ProductPageProps;
     )}
   </section>
 </Layout>
-
