@@ -1,6 +1,4 @@
 ---
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import Layout from '../../layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -27,18 +25,5 @@ export async function getStaticProps({ params }) {
   const data = JSON.parse(raw);
   return { props: data };
 }
-
-const {
-  title,
-  description,
-  image,
-  affiliate_link,
-  top_reviews = []
-} = Astro.props as {
-  title: string;
-  description: string;
-  image: string;
-  affiliate_link: string;
-  top_reviews?: Review[];
-};
 ---
+
