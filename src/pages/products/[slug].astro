@@ -19,7 +19,6 @@ interface ProductPageProps {
 export async function getStaticPaths() {
   const dir = path.resolve('./src/content/products');
   const files = await fs.readdir(dir);
-
   return files.map((file) => ({
     params: { slug: file.replace('.json', '') },
   }));
@@ -40,62 +39,66 @@ const props = {
 ---
 
 <Layout>
-  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="flex flex-col lg:flex-row gap-8 items-start">
-      <!-- Product Image -->
-      <div class="w-full lg:w-1/2">
-        <img src={props.image} alt={props.title} class="rounded-lg shadow-lg w-full" loading="lazy" />
-      </div>
-
-      <!-- Product Details -->
-      <div class="w-full lg:w-1/2">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">{props.title}</h1>
-
-        <div class="flex items-center mb-4">
-          <div class="text-yellow-400 text-xl mr-2">⭐⭐⭐⭐⭐</div>
-          <p class="text-sm text-gray-500">4.7 average rating • 14,230 reviews</p>
+  <main class="bg-page text-default min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <!-- Product Image -->
+        <div class="w-full lg:w-1/2">
+          <img src={props.image} alt={props.title} class="rounded-xl shadow-xl w-full" loading="lazy" />
         </div>
 
-        <p class="text-lg text-gray-700 mb-6">{props.description}</p>
+        <!-- Product Details -->
+        <div class="w-full lg:w-1/2 space-y-4">
+          <h1 class="text-4xl font-heading font-bold">{props.title}</h1>
 
-        <ul class="list-disc list-inside text-gray-600 text-base mb-6 space-y-2">
-          <li>Powerful 900-watt motor with cyclonic action</li>
-          <li>Includes 2 to-go cups with lids</li>
-          <li>BPA-free, dishwasher-safe components</li>
-        </ul>
+          <div class="flex items-center text-muted text-sm">
+            <div class="text-yellow-400 mr-2 text-lg">⭐⭐⭐⭐⭐</div>
+            <span>4.7 average rating • 14,230 reviews</span>
+          </div>
 
-        <a
-          href={props.affiliate_link}
-          target="_blank"
-          rel="nofollow noreferrer"
-          class="block text-center bg-gradient-to-r from-amber-500 to-yellow-600 hover:brightness-110 text-white font-bold py-3 px-6 rounded-lg shadow-md transition"
-        >
-          🛒 Buy on Amazon
-        </a>
+          <p class="text-lg">{props.description}</p>
 
-        <p class="text-sm text-gray-400 mt-3 text-center">
-          #ad — I may earn a small commission at no extra cost to you
-        </p>
-      </div>
-    </div>
-
-    {
-      props.top_reviews.length > 0 && (
-        <div class="mt-12 border-t pt-6">
-          <h2 class="text-2xl font-semibold mb-4">What Customers Are Saying</h2>
-          <ul class="space-y-4">
-            {props.top_reviews.map((review) => (
-              <li class="bg-white shadow rounded-lg p-4">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="font-bold text-lg text-gray-900">{review.title}</h3>
-                  <div class="text-yellow-400 text-sm">{'⭐'.repeat(review.stars || 0)}</div>
-                </div>
-                <p class="text-gray-700">{review.body}</p>
-              </li>
-            ))}
+          <ul class="list-disc list-inside text-muted space-y-2">
+            <li>Powerful 900-watt motor with cyclonic action</li>
+            <li>Includes 2 to-go cups with lids</li>
+            <li>BPA-free, dishwasher-safe components</li>
           </ul>
+
+          <a
+            href={props.affiliate_link}
+            target="_blank"
+            rel="nofollow noreferrer"
+            class="btn btn-primary w-full text-lg"
+          >
+            🛒 Buy on Amazon
+          </a>
+
+          <p class="text-sm text-muted text-center">
+            #ad — I may earn a small commission at no extra cost to you
+          </p>
         </div>
-      )
-    }
-  </section>
+      </div>
+
+      {
+        props.top_reviews.length > 0 && (
+          <section class="mt-16">
+            <h2 class="text-2xl font-heading font-semibold mb-6 border-b border-default pb-2">
+              What Customers Are Saying
+            </h2>
+            <ul class="space-y-6">
+              {props.top_reviews.map((review) => (
+                <li class="rounded-xl border border-default p-5 bg-white dark:bg-dark/40">
+                  <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-semibold">{review.title}</h3>
+                    <div class="text-yellow-400 text-sm">{'⭐'.repeat(review.stars || 0)}</div>
+                  </div>
+                  <p class="text-muted">{review.body}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+  </main>
 </Layout>
