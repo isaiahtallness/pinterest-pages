@@ -1,3 +1,16 @@
+:root {
+  --aw-color-bg-page: #ffffff;
+  --aw-color-bg-page-dark: #0f172a;
+  --aw-color-text-page: #111827;
+  --aw-color-text-muted: #6b7280;
+  --aw-color-text-default: #1f2937;
+  --aw-color-primary: #ea580c;
+  --aw-color-secondary: #facc15;
+  --aw-color-accent: #7c3aed;
+  --aw-font-sans: 'Inter', sans-serif;
+  --aw-font-heading: 'Inter', sans-serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
