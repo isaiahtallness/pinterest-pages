@@ -4,6 +4,20 @@ import typographyPlugin from '@tailwindcss/typography';
 
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,json,md,mdx,svelte,ts,tsx,vue}'],
+  safelist: [
+    'bg-page',
+    'bg-white',
+    'bg-dark',
+    'text-default',
+    'text-muted',
+    'btn',
+    'btn-primary',
+    'border-default',
+    'dark:bg-dark/40',
+    'font-heading',
+    'rounded-xl',
+    'shadow-xl',
+  ],
   theme: {
     extend: {
       colors: {
@@ -18,11 +32,9 @@ export default {
         serif: ['var(--aw-font-serif, ui-serif)', ...defaultTheme.fontFamily.serif],
         heading: ['var(--aw-font-heading, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
       },
-
       animation: {
         fade: 'fadeInUp 1s both',
       },
-
       keyframes: {
         fadeInUp: {
           '0%': { opacity: 0, transform: 'translateY(2rem)' },
