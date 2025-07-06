@@ -19,6 +19,9 @@ interface ProductPageProps {
 export async function getStaticPaths() {
   const dir = path.resolve('./src/content/products');
   const files = await fs.readdir(dir);
+
+  console.log('🧪 Found product files:', files); // 👈 log which files Astro sees
+
   return files.map((file) => ({
     params: { slug: file.replace('.json', '') },
   }));
@@ -29,7 +32,6 @@ export async function getStaticProps({ params }) {
   const raw = await fs.readFile(filePath, 'utf-8');
   const data = JSON.parse(raw);
 
-  // ✅ Keep the product small by only sending the first review
   const cleanedReviews = Array.isArray(data.top_reviews)
     ? data.top_reviews.slice(0, 1)
     : [];
@@ -115,3 +117,4 @@ console.log('🧪 Final merged props:', props);
     </div>
   </main>
 </Layout>
+
