@@ -8,6 +8,7 @@ interface ProductPageProps {
   description: string;
   image: string;
   affiliate_link: string;
+  feature_bullets?: string[];
   top_reviews?: {
     id: string;
     title: string;
@@ -29,7 +30,8 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const filePath = path.resolve(`./src/content/products/${params.slug}.json`);
-console.log('🧪 Reading file:', filePath);
+  console.log('🧪 Reading file:', filePath);
+
   const raw = await fs.readFile(filePath, 'utf-8');
   const data = JSON.parse(raw);
 
@@ -48,11 +50,13 @@ console.log('🧪 Reading file:', filePath);
     ? reviews.slice(0, 1)
     : [];
 
-  console.log('🧪 Top reviews trimmed to count:', cleanedReviews.length);
-
   return {
     props: {
-      ...data,
+      title: data.title || 'Missing title',
+      description: data.description || 'No description provided.',
+      image: data.image || '',
+      affiliate_link: data.affiliate_link || '',
+      feature_bullets: data.feature_bullets || [],
       top_reviews: cleanedReviews,
     },
   };
@@ -62,6 +66,7 @@ const raw = Astro.props as ProductPageProps;
 const props = {
   ...raw,
   top_reviews: raw.top_reviews ?? [],
+  feature_bullets: raw.feature_bullets ?? [],
 };
 
 console.log('🧪 Final merged props:', props);
@@ -87,6 +92,14 @@ console.log('🧪 Final merged props:', props);
 
           <p class="text-lg">{props.description}</p>
 
+          {props.feature_bullets.length > 0 && (
+            <ul class="list-disc list-inside text-muted space-y-2">
+              {props.feature_bullets.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          )}
+
           {props.affiliate_link ? (
             <a
               href={props.affiliate_link}
@@ -97,9 +110,7 @@ console.log('🧪 Final merged props:', props);
               🛒 Buy on Amazon
             </a>
           ) : (
-            <div class="text-red-600 font-semibold">
-              ⚠️ Affiliate link missing from props
-            </div>
+            <div class="text-red-600 font-semibold">⚠️ Affiliate link missing from props</div>
           )}
 
           <p class="text-sm text-muted text-center">
