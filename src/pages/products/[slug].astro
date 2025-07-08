@@ -1,42 +1,24 @@
 ---
-console.log('🧪 Astro.props at runtime:', Astro.props);
 import Layout from '../../layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-interface ProductPageProps {
-  title: string;
-  description: string;
-  image: string;
-  affiliate_link: string;
-  feature_bullets?: string[];
-  top_reviews?: {
-    id: string;
-    title: string;
-    body: string;
-    stars: number;
-  }[];
-}
+const slug = Astro.params.slug;
+const filePath = path.resolve(`./src/content/products/${slug}.json`);
+console.log('🧪 Forcing load from:', filePath);
 
-export async function getStaticPaths() {
-  const dir = path.resolve('./src/content/products');
-  const files = await fs.readdir(dir);
+let props = {
+  title: 'Missing title',
+  description: 'Missing description',
+  image: '',
+  affiliate_link: '',
+  feature_bullets: [],
+  top_reviews: [],
+};
 
-  console.log('🧪 Found product files:', files);
-
-  return files.map((file) => ({
-    params: { slug: file.replace('.json', '') },
-  }));
-}
-
-export async function getStaticProps({ params }) {
-  const filePath = path.resolve(`./src/content/products/${params.slug}.json`);
-  console.log('🧪 Reading file:', filePath);
-
+try {
   const raw = await fs.readFile(filePath, 'utf-8');
   const data = JSON.parse(raw);
-
-  console.log('🧪 Loaded product data:', data);
 
   let reviews = data.top_reviews;
   if (typeof reviews === 'string') {
@@ -47,30 +29,19 @@ export async function getStaticProps({ params }) {
     }
   }
 
-  const cleanedReviews = Array.isArray(reviews)
-    ? reviews.slice(0, 1)
-    : [];
-
-  return {
-    props: {
-      title: data.title || 'Missing title',
-      description: data.description || 'No description provided.',
-      image: data.image || '',
-      affiliate_link: data.affiliate_link || '',
-      feature_bullets: data.feature_bullets || [],
-      top_reviews: cleanedReviews,
-    },
+  props = {
+    title: data.title || props.title,
+    description: data.description || props.description,
+    image: data.image || props.image,
+    affiliate_link: data.affiliate_link || props.affiliate_link,
+    feature_bullets: data.feature_bullets || [],
+    top_reviews: Array.isArray(reviews) ? reviews.slice(0, 1) : [],
   };
+} catch (err) {
+  console.error('❌ Error loading file for slug:', slug, err);
 }
 
-const raw = Astro.props as ProductPageProps;
-const props = {
-  ...raw,
-  top_reviews: raw.top_reviews ?? [],
-  feature_bullets: raw.feature_bullets ?? [],
-};
-
-console.log('🧪 Final merged props:', props);
+console.log('🧪 FINAL RENDER PROPS:', props);
 ---
 
 <Layout>
