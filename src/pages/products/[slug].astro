@@ -34,9 +34,7 @@ export async function getStaticProps({ params }) {
 
   console.log('🧪 Loaded product data:', data);
 
-  // 🔧 Normalize top_reviews in case it's a string
   let reviews = data.top_reviews;
-
   if (typeof reviews === 'string') {
     try {
       reviews = JSON.parse(reviews);
@@ -88,14 +86,20 @@ console.log('🧪 Final merged props:', props);
 
           <p class="text-lg">{props.description}</p>
 
-          <a
-            href={props.affiliate_link}
-            target="_blank"
-            rel="nofollow noreferrer"
-            class="btn btn-primary w-full text-lg"
-          >
-            🛒 Buy on Amazon
-          </a>
+          {props.affiliate_link ? (
+            <a
+              href={props.affiliate_link}
+              target="_blank"
+              rel="nofollow noreferrer"
+              class="btn btn-primary w-full text-lg"
+            >
+              🛒 Buy on Amazon
+            </a>
+          ) : (
+            <div class="text-red-600 font-semibold">
+              ⚠️ Affiliate link missing from props
+            </div>
+          )}
 
           <p class="text-sm text-muted text-center">
             #ad — I may earn a small commission at no extra cost to you
