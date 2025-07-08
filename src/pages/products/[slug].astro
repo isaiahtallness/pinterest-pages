@@ -3,6 +3,18 @@ import Layout from '../../layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+// ✅ Required by Astro for dynamic routes to build
+export async function getStaticPaths() {
+  const dir = path.resolve('./src/content/products');
+  const files = await fs.readdir(dir);
+
+  console.log('🧪 Found product files:', files);
+
+  return files.map((file) => ({
+    params: { slug: file.replace('.json', '') },
+  }));
+}
+
 const slug = Astro.params.slug;
 const filePath = path.resolve(`./src/content/products/${slug}.json`);
 console.log('🧪 Forcing load from:', filePath);
@@ -112,3 +124,4 @@ console.log('🧪 FINAL RENDER PROPS:', props);
     </div>
   </main>
 </Layout>
+
