@@ -3,13 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-// ✅ Required by Astro for dynamic routes to build
 export async function getStaticPaths() {
   const dir = path.resolve('./src/content/products');
   const files = await fs.readdir(dir);
-
-  console.log('🧪 Found product files:', files);
-
   return files.map((file) => ({
     params: { slug: file.replace('.json', '') },
   }));
@@ -17,8 +13,6 @@ export async function getStaticPaths() {
 
 const slug = Astro.params.slug;
 const filePath = path.resolve(`./src/content/products/${slug}.json`);
-console.log('🧪 Forcing load from:', filePath);
-
 let props = {
   title: 'Missing title',
   description: 'Missing description',
@@ -31,7 +25,6 @@ let props = {
 try {
   const raw = await fs.readFile(filePath, 'utf-8');
   const data = JSON.parse(raw);
-
   let reviews = data.top_reviews;
   if (typeof reviews === 'string') {
     try {
@@ -52,13 +45,19 @@ try {
 } catch (err) {
   console.error('❌ Error loading file for slug:', slug, err);
 }
-
-console.log('🧪 FINAL RENDER PROPS:', props);
 ---
 
 <Layout>
-  <main class="bg-page text-default min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-5xl mx-auto">
+  <main class="bg-page text-default min-h-screen">
+    <!-- 🍊 Orange accent bar -->
+    <div class="w-full h-2 bg-orange-500"></div>
+
+    <!-- 🪧 Brand banner -->
+    <div class="text-center mt-2 text-sm font-semibold text-orange-600 tracking-wide uppercase">
+      Curated by Isaiah • Trusted Picks for Everyday Wins
+    </div>
+
+    <div class="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
       <div class="flex flex-col lg:flex-row gap-8 items-start">
         <div class="w-full lg:w-1/2">
           {props.image && (
@@ -100,28 +99,5 @@ console.log('🧪 FINAL RENDER PROPS:', props);
           <p class="text-sm text-muted text-center">
             #ad — I may earn a small commission at no extra cost to you
           </p>
-        </div>
-      </div>
-
-      {props.top_reviews.length > 0 && (
-        <section class="mt-16">
-          <h2 class="text-2xl font-heading font-semibold mb-6 border-b border-default pb-2">
-            What Customers Are Saying
-          </h2>
-          <ul class="space-y-6">
-            {props.top_reviews.map((review) => (
-              <li class="rounded-xl border border-default p-5 bg-white dark:bg-dark/40">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="text-lg font-semibold">{review.title}</h3>
-                  <div class="text-yellow-400 text-sm">{'⭐'.repeat(review.stars || 0)}</div>
-                </div>
-                <p class="text-muted">{review.body}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </div>
-  </main>
-</Layout>
+        </
 
