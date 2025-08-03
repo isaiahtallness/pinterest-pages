@@ -22,6 +22,10 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
+  // ✅ This tells Astro your site lives here now
+  site: 'https://dealfinderblog.com',
+  base: '/',
+
   output: 'static',
 
   integrations: [
@@ -84,6 +88,11 @@ export default defineConfig({
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
+      },
+    },
+  },
+});
+
       },
     },
   },
