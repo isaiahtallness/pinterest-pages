@@ -4,21 +4,25 @@ import Layout from '~/layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-// 📁 Resolve Products Directory (for pinterest-pages)
-const productsDir = path.resolve('./pinterest-pages/src/content/products');
-
-// 🧠 Robust Featured Loader
+// 🧭 Robust Featured Product Loader
 let featured = [];
 
 try {
+  // ✅ Resolve path relative to current module file
+  const productsDir = new URL('../src/content/products', import.meta.url).pathname;
+  console.log('Resolved productsDir:', productsDir);
+
   const files = (await fs.readdir(productsDir))
-    .filter(f => f.endsWith('.json')) // only .json files
-    .sort(); // ensures stable order
+    .filter(f => f.endsWith('.json'))
+    .sort(); // predictable order
+
+  if (!files.length) console.warn('⚠️ No JSON files found in products directory');
 
   const all = await Promise.all(
     files.map(async (file) => {
       try {
-        const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
+        const raw = await fs.readFile(`${productsDir}/${file}`, 'utf-8');
+        const data = JSON.parse(raw);
         return {
           slug: file.replace('.json', ''),
           title: data.title,
@@ -26,15 +30,16 @@ try {
           image: data.image,
         };
       } catch (err) {
-        console.warn(`Couldn't parse ${file}:`, err);
+        console.warn(`🚫 Failed to parse ${file}:`, err);
         return null;
       }
     })
   );
 
-  featured = all.filter(Boolean).slice(-3); // get last 3 valid entries
+  featured = all.filter(Boolean).slice(-3);
+  console.log('✅ Featured products:', featured.length);
 } catch (err) {
-  console.error('Directory load failed:', err);
+  console.error('❌ Error loading featured products:', err);
 }
 ---
 
@@ -54,7 +59,7 @@ try {
       </div>
     </section>
 
-    <!-- 🌟 Featured Products Grid -->
+    <!-- 🌟 Featured Products -->
     <section class="pt-10 pb-16 px-6 sm:px-8 max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-white mb-10">Featured Picks</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -79,7 +84,7 @@ try {
             </div>
           ))
         ) : (
-          <p class="text-center text-white/60 col-span-3">No featured products available — check back soon!</p>
+          <p class="text-center text-white/60 col-span-3">No featured products available right now.</p>
         )}
       </div>
     </section>
@@ -101,15 +106,4 @@ try {
     </section>
 
     <!-- 🧭 CTA Section -->
-    <section class="text-center py-16 bg-gradient-to-r from-slate-800 to-slate-900 text-white">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-6">Your Next Favorite Find Starts Here</h2>
-      <a
-        href="/products"
-        class="btn btn-primary text-lg px-10 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
-      >
-        Browse All Categories
-      </a>
-      <p class="mt-6 text-sm text-white/60">Curated. Reviewed. Trusted. #ad</p>
-    </section>
-  </main>
-</Layout>
+    <section class="text-center py-16 bg-gradient-to-r from-slate-800 to
