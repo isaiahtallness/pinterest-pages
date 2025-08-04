@@ -1,12 +1,12 @@
 ---
-import merge from 'lodash.merge';
-import { AstroSeo } from '@astrolib/seo';
-import defaultImage from '~/assets/images/default.png';
+import merge from 'lodash.merge'
+import { AstroSeo } from '@astrolib/seo'
+import defaultImage from '~/assets/images/default.png'
 
-import type { Props as AstroSeoProps } from '@astrolib/seo';
-import { SITE, METADATA, I18N } from 'astrowind:config';
-import type { MetaData } from '~/types';
-import { getCanonical } from '~/utils/permalinks';
+import type { Props as AstroSeoProps } from '@astrolib/seo'
+import { SITE, METADATA, I18N } from 'astrowind:config'
+import type { MetaData } from '~/types'
+import { getCanonical } from '~/utils/permalinks'
 ---
 
 const {
@@ -17,7 +17,7 @@ const {
   description,
   openGraph = {},
   twitter = {},
-} = Astro.props;
+} = Astro.props
 
 const seoProps: AstroSeoProps = merge(
   {
@@ -61,7 +61,8 @@ const seoProps: AstroSeoProps = merge(
     description: description,
     twitter: twitter,
   }
-);
+)
 ---
 
 <AstroSeo {...seoProps} />
+
