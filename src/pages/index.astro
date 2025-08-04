@@ -25,28 +25,25 @@ const featured = await Promise.all(
     <div class="w-full h-3 bg-gradient-to-r from-orange-500 to-orange-700"></div>
 
     <!-- 🖼️ Hero Banner -->
-    <section class="relative h-[500px] overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent"></div>
-      <div class="relative z-10 flex items-center justify-center h-full text-center px-4 sm:px-6">
-        <div class="text-white space-y-6 max-w-3xl animate-fade-in">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading tracking-tight">
-            DealFinder Blog
-          </h1>
-          <p class="text-lg sm:text-xl leading-relaxed">
-            Discover smart recommendations, trusted insights, and real value. Curated by Isaiah to transform browsing into discovery.
-          </p>
-          <a
-            href="/products/sample-product"
-            class="btn btn-primary text-lg inline-block px-8 py-3 mt-4 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
-          >
-            Explore Featured Picks
-          </a>
-        </div>
+    <section class="relative h-[500px] flex items-center justify-center text-center px-4 sm:px-6">
+      <div class="space-y-6 max-w-3xl animate-fade-in">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading tracking-tight">
+          DealFinder Blog
+        </h1>
+        <p class="text-lg sm:text-xl leading-relaxed">
+          Discover smart recommendations, trusted insights, and real value. Curated by Isaiah to transform browsing into discovery.
+        </p>
+        <a
+          href="/products/sample-product"
+          class="btn btn-primary text-lg inline-block px-8 py-3 mt-4 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
+        >
+          Explore Featured Picks
+        </a>
       </div>
     </section>
 
     <!-- 🌟 Featured Products Section -->
-    <section class="py-10 px-6 sm:px-8 max-w-7xl mx-auto">
+    <section class="pt-10 pb-16 px-6 sm:px-8 max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-white mb-10">Featured Picks</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((item) => (
@@ -96,7 +93,4 @@ const featured = await Promise.all(
       <p class="mt-6 text-sm text-white/60">Curated. Reviewed. Trusted. #ad</p>
     </section>
   </main>
-
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform
+</Layout>
