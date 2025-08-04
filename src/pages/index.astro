@@ -1,5 +1,23 @@
 ---
 import Layout from '~/layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const productsDir = path.resolve('./src/content/products');
+const files = await fs.readdir(productsDir);
+
+// Select 3 products to feature on homepage
+const featured = await Promise.all(
+  files.slice(0, 3).map(async (file) => {
+    const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
+    return {
+      slug: file.replace('.json', ''),
+      title: data.title,
+      description: data.description,
+      image: data.image,
+    };
+  })
+);
 ---
 
 <Layout>
@@ -37,24 +55,16 @@ import Layout from '~/layouts/Layout.astro';
     <section class="py-16 px-6 sm:px-8 max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-slate-800 dark:text-white mb-12">Featured Picks</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          <img src="/assets/product1.jpg" alt="Product 1" class="w-full h-48 object-cover rounded-md mb-4" />
-          <h3 class="text-xl font-semibold text-slate-800 dark:text-white">Product Name 1</h3>
-          <p class="text-muted text-sm mt-2">A high-quality product that delivers exceptional value.</p>
-          <a href="/products/product1" class="text-orange-500 hover:text-orange-600 font-medium mt-4 inline-block">Shop Now</a>
-        </div>
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          <img src="/assets/product2.jpg" alt="Product 2" class="w-full h-48 object-cover rounded-md mb-4" />
-          <h3 class="text-xl font-semibold text-slate-800 dark:text-white">Product Name 2</h3>
-          <p class="text-muted text-sm mt-2">Carefully curated for performance and reliability.</p>
-          <a href="/products/product2" class="text-orange-500 hover:text-orange-600 font-medium mt-4 inline-block">Shop Now</a>
-        </div>
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-          <img src="/assets/product3.jpg" alt="Product 3" class="w-full h-48 object-cover rounded-md mb-4" />
-          <h3 class="text-xl font-semibold text-slate-800 dark:text-white">Product Name 3</h3>
-          <p class="text-muted text-sm mt-2">A top pick for style and functionality.</p>
-          <a href="/products/product3" class="text-orange-500 hover:text-orange-600 font-medium mt-4 inline-block">Shop Now</a>
-        </div>
+        {featured.map((item) => (
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+            <img src={item.image} alt={item.title} class="w-full h-48 object-cover rounded-md mb-4" />
+            <h3 class="text-xl font-semibold text-slate-800 dark:text-white">{item.title}</h3>
+            <p class="text-muted text-sm mt-2">{item.description}</p>
+            <a href={`/products/${item.slug}`} class="text-orange-500 hover:text-orange-600 font-medium mt-4 inline-block">
+              Shop Now
+            </a>
+          </div>
+        ))}
       </div>
     </section>
 
@@ -77,7 +87,9 @@ import Layout from '~/layouts/Layout.astro';
     <!-- 🧭 CTA Section -->
     <section class="text-center py-16 bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 text-slate-800 dark:text-white">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6">Your Next Favorite Find Starts Here</h2>
-      <a href="/products" class="btn btn-primary text-lg px-10 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300">Browse All Categories</a>
+      <a href="/products" class="btn btn-primary text-lg px-10 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300">
+        Browse All Categories
+      </a>
       <p class="mt-6 text-sm text-muted">Curated. Reviewed. Trusted. #ad</p>
     </section>
   </main>
@@ -92,28 +104,3 @@ import Layout from '~/layouts/Layout.astro';
     }
   </style>
 </Layout>
-        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-2">Authentic Curation</h3>
-        <p>Every pick is hand-selected based on quality, reviews, and usefulness — no fluff, no gimmicks.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-2">Data Meets Taste</h3>
-        <p>Behind every recommendation is a system built on experience, user signals, and smart automation.</p>
-      </div>
-      <div>
-        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-2">Affiliate Transparency</h3>
-        <p>We may earn commissions from links — but every product earns its spot with genuine value.</p>
-      </div>
-    </section>
-
-    <!-- 🧭 CTA Section -->
-    <section class="text-center py-12 bg-orange-50 dark:bg-orange-900 text-slate-800 dark:text-white">
-      <h2 class="text-3xl font-bold mb-4">Your Next Favorite Find Starts Here</h2>
-      <a href="/products" class="btn btn-primary text-lg px-8 py-3">Browse All Categories</a>
-      <p class="mt-4 text-sm text-muted">Curated. Reviewed. Trusted. #ad</p>
-    </section>
-  </main>
-</Layout>
-
-  </main>
-</Layout>
-
