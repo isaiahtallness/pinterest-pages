@@ -8,23 +8,21 @@ export interface Props {
 }
 
 const { frontmatter } = Astro.props;
-
-const metadata: MetaData = {
-  title: frontmatter?.title ?? '',
-};
+const metadata: MetaData = { title: frontmatter?.title ?? '' };
 ---
 
 <PageLayout metadata={metadata}>
   <section class="px-4 py-16 sm:px-6 lg:px-8 lg:py-20 mx-auto max-w-4xl">
-    <h1 class="text-4xl md:text-5xl font-bold tracking-tighter leading-tighter font-heading">
+    <h1 class="text-4xl md:text-5xl font-bold font-heading tracking-tighter leading-tighter">
       {frontmatter.title}
     </h1>
 
     <div
-      class="mt-8 prose prose-lg prose-img:mx-auto prose-img:max-w-full prose-img:h-auto prose-img:rounded-lg
-             dark:prose-invert dark:prose-headings:text-slate-300
-             prose-headings:font-heading prose-headings:tracking-tighter prose-headings:leading-tighter
-             prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400"
+      class="mt-8 prose prose-lg dark:prose-invert max-w-4xl mx-auto
+             prose-img:mx-auto prose-img:max-w-full prose-img:h-auto prose-img:rounded-lg
+             prose-headings:font-heading prose-headings:font-bold
+             prose-headings:tracking-tighter prose-headings:leading-tighter
+             prose-a:text-blue-600 dark:prose-a:text-blue-400"
     >
       <slot />
     </div>
