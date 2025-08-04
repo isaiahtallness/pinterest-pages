@@ -22,21 +22,20 @@ const featured = await Promise.all(
 <Layout>
   <main class="bg-slate-900 text-white min-h-screen">
     <!-- 🍊 Accent bar -->
-    <div class="w-full h-4 bg-gradient-to-r from-orange-600 to-orange-800 shadow-md"></div>
+    <div class="w-full h-3 bg-gradient-to-r from-orange-500 to-orange-700"></div>
 
     <!-- 🖼️ Hero Banner -->
-    <section class="relative h-[550px] flex items-center justify-center text-center px-4 sm:px-6 bg-cover bg-center" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.2)), url('/assets/banner.jpg');">
-      <div class="space-y-8 max-w-4xl animate-fade-in">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading tracking-tight leading-tight">
+    <section class="relative h-[500px] flex items-center justify-center text-center px-4 sm:px-6">
+      <div class="space-y-6 max-w-3xl animate-fade-in">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading tracking-tight">
           DealFinder Blog
         </h1>
-        <p class="text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
-          Discover curated recommendations, trusted insights, and unbeatable value. Handpicked by Isaiah to elevate your shopping experience.
+        <p class="text-lg sm:text-xl leading-relaxed">
+          Discover smart recommendations, trusted insights, and real value. Curated by Isaiah to transform browsing into discovery.
         </p>
         <a
           href="/products/sample-product"
-          class="btn btn-primary text-lg inline-block px-10 py-4 mt-6 rounded-full bg-orange-600 hover:bg-orange-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
-          aria-label="Explore Featured Picks"
+          class="btn btn-primary text-lg inline-block px-8 py-3 mt-4 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
         >
           Explore Featured Picks
         </a>
@@ -44,24 +43,23 @@ const featured = await Promise.all(
     </section>
 
     <!-- 🌟 Featured Products Section -->
-    <section class="py-16 px-6 sm:px-8 max-w-7xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl font-bold text-center text-white mb-12">Featured Picks</h2>
+    <section class="pt-10 pb-16 px-6 sm:px-8 max-w-7xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-white mb-10">Featured Picks</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((item) => (
-          <div class="bg-slate-800 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 group" aria-labelledby={`product-${item.slug}`}>
-            <div class="w-full aspect-[4/3] rounded-lg overflow-hidden">
+          <div class="bg-slate-800 rounded-xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
+            <div class="w-full aspect-[4/3] rounded-md overflow-hidden">
               <img
                 src={item.image}
                 alt={item.title}
-                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                class="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-300"
               />
             </div>
-            <h3 id={`product-${item.slug}`} class="text-xl font-semibold text-white mt-4">{item.title}</h3>
-            <p class="text-white/70 text-sm mt-2 line-clamp-2">{item.description}</p>
+            <h3 class="text-xl font-semibold text-white/90 mt-4">{item.title}</h3>
+            <p class="text-white/70 text-sm mt-2">{item.description}</p>
             <a
               href={`/products/${item.slug}`}
-              class="text-orange-400 hover:text-orange-300 font-medium mt-4 inline-block transition-colors duration-200"
-              aria-label={`Shop ${item.title}`}
+              class="text-orange-400 hover:text-orange-300 font-medium mt-4 inline-block"
             >
               Shop Now →
             </a>
@@ -71,48 +69,28 @@ const featured = await Promise.all(
     </section>
 
     <!-- 🔧 Value Proposition -->
-    <section class="py-20 px-6 sm:px-8 max-w-5xl mx-auto grid gap-12 lg:grid-cols-3 text-white/80">
-      <div class="text-center space-y-4">
-        <h3 class="text-xl font-semibold text-white">Authentic Curation</h3>
-        <p class="text-sm">Every pick is meticulously chosen for quality, reliability, and value — no fluff, just the best.</p>
+    <section class="py-16 px-6 sm:px-8 max-w-5xl mx-auto grid gap-12 lg:grid-cols-3 text-white/70">
+      <div class="text-center">
+        <h3 class="text-xl font-semibold text-white mb-3">Authentic Curation</h3>
+        <p class="text-sm">Every pick is hand-selected based on quality, reviews, and usefulness — no fluff, no gimmicks.</p>
       </div>
-      <div class="text-center space-y-4">
-        <h3 class="text-xl font-semibold text-white">Data Meets Taste</h3>
-        <p class="text-sm">Our recommendations blend expert curation with data-driven insights for smarter shopping.</p>
+      <div class="text-center">
+        <h3 class="text-xl font-semibold text-white mb-3">Data Meets Taste</h3>
+        <p class="text-sm">Behind every recommendation is a system built on experience, user signals, and smart automation.</p>
       </div>
-      <div class="text-center space-y-4">
-        <h3 class="text-xl font-semibold text-white">Affiliate Transparency</h3>
-        <p class="text-sm">We may earn commissions, but every product is selected for its genuine value to you.</p>
+      <div class="text-center">
+        <h3 class="text-xl font-semibold text-white mb-3">Affiliate Transparency</h3>
+        <p class="text-sm">We may earn commissions from links — but every product earns its spot with genuine value.</p>
       </div>
     </section>
 
     <!-- 🧭 CTA -->
-    <section class="text-center py-16 bg-gradient-to-r from-slate-800 to-slate-900 text-white relative">
+    <section class="text-center py-16 bg-gradient-to-r from-slate-800 to-slate-900 text-white">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6">Your Next Favorite Find Starts Here</h2>
-      <a
-        href="/products"
-        class="btn btn-primary text-lg px-10 py-4 rounded-full bg-orange-600 hover:bg-orange-700 transition-colors duration-300 shadow-lg hover:shadow-xl sticky top-4"
-        aria-label="Browse All Categories"
-      >
+      <a href="/products" class="btn btn-primary text-lg px-10 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300">
         Browse All Categories
       </a>
       <p class="mt-6 text-sm text-white/60">Curated. Reviewed. Trusted. #ad</p>
     </section>
   </main>
-
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fadeIn 0.8s ease-out forwards;
-    }
-    .line-clamp-2 {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-  </style>
 </Layout>
