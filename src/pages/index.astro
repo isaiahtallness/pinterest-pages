@@ -5,25 +5,27 @@ import Layout from '~/layouts/Layout.astro';
 <Layout>
   <main class="bg-page text-default min-h-screen">
     <!-- 🍊 Orange accent bar -->
-    <div class="w-full h-2 bg-orange-500"></div>
+    <div class="w-full h-3 bg-gradient-to-r from-orange-500 to-orange-700"></div>
 
     <!-- 🖼️ Hero Banner -->
-    <section class="relative h-[420px] overflow-hidden">
+    <section class="relative h-[500px] overflow-hidden">
       <img
         src="/assets/banner.jpg"
         alt="Curated Product Picks"
-        class="absolute inset-0 w-full h-full object-cover opacity-90"
+        class="absolute inset-0 w-full h-full object-cover opacity-85 transition-opacity duration-500 hover:opacity-90"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent"></div>
-      <div class="relative z-10 flex items-center justify-center h-full text-center px-4">
-        <div class="text-white space-y-4 max-w-2xl">
-          <h1 class="text-5xl font-bold font-heading">DealFinder Blog</h1>
-          <p class="text-lg">
-            Smart recommendations. Trusted insights. Real value. Curated by Isaiah to turn browsing into discovering.
+      <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent"></div>
+      <div class="relative z-10 flex items-center justify-center h-full text-center px-4 sm:px-6">
+        <div class="text-white space-y-6 max-w-3xl animate-fade-in">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading tracking-tight">
+            DealFinder Blog
+          </h1>
+          <p class="text-lg sm:text-xl leading-relaxed">
+            Discover smart recommendations, trusted insights, and real value. Curated by Isaiah to transform browsing into discovery.
           </p>
           <a
             href="/products/sample-product"
-            class="btn btn-primary text-lg inline-block px-6 py-3 mt-2"
+            class="btn btn-primary text-lg inline-block px-8 py-3 mt-4 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
           >
             Explore Featured Picks
           </a>
@@ -31,9 +33,65 @@ import Layout from '~/layouts/Layout.astro';
       </div>
     </section>
 
+    <!-- 🌟 Featured Products Section -->
+    <section class="py-16 px-6 sm:px-8 max-w-7xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-slate-800 dark:text-white mb-12">Featured Picks</h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <img src="/assets/product1.jpg" alt="Product 1" class="w-full h-48 object-cover rounded-md mb-4" />
+          <h3 class="text-xl font-semibold text-slate-800 dark:text-white">Product Name 1</h3>
+          <p class="text-muted text-sm mt-2">A high-quality product that delivers exceptional value.</p>
+          <a href="/products/product1" class="text-orange-500 hover:text-orange-600 font-medium mt-4 inline-block">Shop Now</a>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <img src="/assets/product2.jpg" alt="Product 2" class="w-full h-48 object-cover rounded-md mb-4" />
+          <h3 class="text-xl font-semibold text-slate-800 dark:text-white">Product Name 2</h3>
+          <p class="text-muted text-sm mt-2">Carefully curated for performance and reliability.</p>
+          <a href="/products/product2" class="text-orange-500 hover:text-orange-600 font-medium mt-4 inline-block">Shop Now</a>
+        </div>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <img src="/assets/product3.jpg" alt="Product 3" class="w-full h-48 object-cover rounded-md mb-4" />
+          <h3 class="text-xl font-semibold text-slate-800 dark:text-white">Product Name 3</h3>
+          <p class="text-muted text-sm mt-2">A top pick for style and functionality.</p>
+          <a href="/products/product3" class="text-orange-500 hover:text-orange-600 font-medium mt-4 inline-block">Shop Now</a>
+        </div>
+      </div>
+    </section>
+
     <!-- 🔧 Value Proposition Section -->
-    <section class="py-16 px-6 lg:px-8 max-w-5xl mx-auto grid gap-12 lg:grid-cols-3 text-muted">
-      <div>
+    <section class="py-16 px-6 sm:px-8 max-w-5xl mx-auto grid gap-12 lg:grid-cols-3 text-muted">
+      <div class="text-center">
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Authentic Curation</h3>
+        <p class="text-sm">Every pick is hand-selected based on quality, reviews, and usefulness — no fluff, no gimmicks.</p>
+      </div>
+      <div class="text-center">
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Data Meets Taste</h3>
+        <p class="text-sm">Behind every recommendation is a system built on experience, user signals, and smart automation.</p>
+      </div>
+      <div class="text-center">
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-3">Affiliate Transparency</h3>
+        <p class="text-sm">We may earn commissions from links — but every product earns its spot with genuine value.</p>
+      </div>
+    </section>
+
+    <!-- 🧭 CTA Section -->
+    <section class="text-center py-16 bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 text-slate-800 dark:text-white">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-6">Your Next Favorite Find Starts Here</h2>
+      <a href="/products" class="btn btn-primary text-lg px-10 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300">Browse All Categories</a>
+      <p class="mt-6 text-sm text-muted">Curated. Reviewed. Trusted. #ad</p>
+    </section>
+  </main>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+  </style>
+</Layout>
         <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-2">Authentic Curation</h3>
         <p>Every pick is hand-selected based on quality, reviews, and usefulness — no fluff, no gimmicks.</p>
       </div>
