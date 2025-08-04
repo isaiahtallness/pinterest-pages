@@ -13,19 +13,27 @@ import type { AstroIntegration } from 'astro';
 
 import astrowind from './vendor/integration';
 
-import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
+import {
+  readingTimeRemarkPlugin,
+  responsiveTablesRehypePlugin,
+  lazyImagesRehypePlugin,
+} from './src/utils/frontmatter';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
-const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroIntegration)[] = []) =>
-  hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
+const whenExternalScripts = (
+  items: (() => AstroIntegration) | (() => AstroIntegration)[]
+ = []) =>
+  hasExternalScripts
+    ? Array.isArray(items)
+      ? items.map((item) => item())
+      : [items()]
+    : [];
 
 export default defineConfig({
-  // ✅ This tells Astro your site lives here now
   site: 'https://dealfinderblog.com',
   base: '/',
-
   output: 'static',
 
   integrations: [
@@ -50,13 +58,11 @@ export default defineConfig({
         ],
       },
     }),
-
     ...whenExternalScripts(() =>
       partytown({
         config: { forward: ['dataLayer.push'] },
       })
     ),
-
     compress({
       CSS: true,
       HTML: {
@@ -69,7 +75,6 @@ export default defineConfig({
       SVG: false,
       Logger: 1,
     }),
-
     astrowind({
       config: './src/config.yaml',
     }),
@@ -81,7 +86,10 @@ export default defineConfig({
 
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
-    rehypePlugins: [responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
+    rehypePlugins: [
+      responsiveTablesRehypePlugin,
+      lazyImagesRehypePlugin,
+    ],
   },
 
   vite: {
