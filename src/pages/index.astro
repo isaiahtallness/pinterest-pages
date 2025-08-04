@@ -25,7 +25,14 @@ const featured = await Promise.all(
     <div class="w-full h-3 bg-gradient-to-r from-orange-500 to-orange-700"></div>
 
     <!-- 🖼️ Hero Banner -->
-    <section class="relative h-[500px] flex items-center justify-center text-center px-4 sm:px-6">
+    <section class="relative h-[500px] flex flex-col items-center justify-center text-center px-4 sm:px-6">
+      <!-- 🔶 Logo Image -->
+      <img
+        src="/dealfinder-logo.jpeg"
+        alt="Deal Finder Blog Logo"
+        class="w-auto h-24 sm:h-28 md:h-32 mb-4 drop-shadow-md rounded-md animate-fade-in"
+      />
+
       <div class="space-y-6 max-w-3xl animate-fade-in">
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading tracking-tight">
           DealFinder Blog
@@ -35,7 +42,7 @@ const featured = await Promise.all(
         </p>
         <a
           href="/products/sample-product"
-          class="btn btn-primary text-lg inline-block px-8 py-3 mt-4 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
+          class="btn btn-primary text-lg inline-block px-8 py-3 mt-2 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
         >
           Explore Featured Picks
         </a>
