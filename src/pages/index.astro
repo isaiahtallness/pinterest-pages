@@ -7,33 +7,55 @@ import Layout from '~/layouts/Layout.astro';
     <!-- 🍊 Orange accent bar -->
     <div class="w-full h-2 bg-orange-500"></div>
 
-    <!-- 🪧 Brand banner -->
-    <div class="text-center mt-3 text-sm font-semibold text-orange-600 tracking-wide uppercase">
-      Curated by Isaiah • Trusted Picks for Everyday Wins
-    </div>
-
-    <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-6">
-      <h1 class="text-4xl font-heading font-bold text-slate-800 dark:text-white">
-        DealFinder Blog
-      </h1>
-
-      <p class="text-lg text-muted max-w-xl mx-auto">
-        A curated library of products worth the hype — not just trending, but chosen for quality, usefulness, and standout reviews. Whether you're searching or just browsing, we've done the digging so you don’t have to.
-      </p>
-
-      <div class="flex justify-center">
-        <a
-          href="/products/sample-product"
-          class="btn btn-primary text-lg px-6 py-3"
-        >
-          Browse Featured Picks
-        </a>
+    <!-- 🖼️ Hero Banner -->
+    <section class="relative h-[420px] overflow-hidden">
+      <img
+        src="/assets/banner.jpg"
+        alt="Curated Product Picks"
+        class="absolute inset-0 w-full h-full object-cover opacity-90"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent"></div>
+      <div class="relative z-10 flex items-center justify-center h-full text-center px-4">
+        <div class="text-white space-y-4 max-w-2xl">
+          <h1 class="text-5xl font-bold font-heading">DealFinder Blog</h1>
+          <p class="text-lg">
+            Smart recommendations. Trusted insights. Real value. Curated by Isaiah to turn browsing into discovering.
+          </p>
+          <a
+            href="/products/sample-product"
+            class="btn btn-primary text-lg inline-block px-6 py-3 mt-2"
+          >
+            Explore Featured Picks
+          </a>
+        </div>
       </div>
     </section>
 
-    <footer class="text-center text-sm text-muted pb-6">
-      #ad — We may earn commissions from affiliate links. Opinions are our own.
-    </footer>
+    <!-- 🔧 Value Proposition Section -->
+    <section class="py-16 px-6 lg:px-8 max-w-5xl mx-auto grid gap-12 lg:grid-cols-3 text-muted">
+      <div>
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-2">Authentic Curation</h3>
+        <p>Every pick is hand-selected based on quality, reviews, and usefulness — no fluff, no gimmicks.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-2">Data Meets Taste</h3>
+        <p>Behind every recommendation is a system built on experience, user signals, and smart automation.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-slate-800 dark:text-white mb-2">Affiliate Transparency</h3>
+        <p>We may earn commissions from links — but every product earns its spot with genuine value.</p>
+      </div>
+    </section>
+
+    <!-- 🧭 CTA Section -->
+    <section class="text-center py-12 bg-orange-50 dark:bg-orange-900 text-slate-800 dark:text-white">
+      <h2 class="text-3xl font-bold mb-4">Your Next Favorite Find Starts Here</h2>
+      <a href="/products" class="btn btn-primary text-lg px-8 py-3">Browse All Categories</a>
+      <p class="mt-4 text-sm text-muted">Curated. Reviewed. Trusted. #ad</p>
+    </section>
+  </main>
+</Layout>
+
   </main>
 </Layout>
 
