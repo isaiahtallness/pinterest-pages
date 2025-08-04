@@ -1,19 +1,22 @@
 ---
-// 🌐 Module Imports
+// 🌐 Imports
 import Layout from '~/layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-// 📁 Products Directory (adjusted for pinterest-pages structure)
+// 📁 Resolve Products Directory (for pinterest-pages)
 const productsDir = path.resolve('./pinterest-pages/src/content/products');
 
-// 🌟 Load Featured Products with Fallback
+// 🧠 Robust Featured Loader
 let featured = [];
 
 try {
-  const files = await fs.readdir(productsDir);
-  featured = await Promise.all(
-    files.slice(-3).map(async (file) => {
+  const files = (await fs.readdir(productsDir))
+    .filter(f => f.endsWith('.json')) // only .json files
+    .sort(); // ensures stable order
+
+  const all = await Promise.all(
+    files.map(async (file) => {
       try {
         const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
         return {
@@ -23,20 +26,21 @@ try {
           image: data.image,
         };
       } catch (err) {
-        console.warn(`Failed to parse ${file}:`, err);
+        console.warn(`Couldn't parse ${file}:`, err);
         return null;
       }
     })
   );
-  featured = featured.filter(Boolean);
+
+  featured = all.filter(Boolean).slice(-3); // get last 3 valid entries
 } catch (err) {
-  console.error('Failed to read products directory:', err);
+  console.error('Directory load failed:', err);
 }
 ---
 
 <Layout>
   <main class="bg-slate-900 text-white min-h-screen">
-    <!-- 🍊 Accent bar -->
+    <!-- 🍊 Accent Bar -->
     <div class="w-full h-3 bg-white"></div>
 
     <!-- 🖼️ Hero Banner -->
@@ -50,7 +54,7 @@ try {
       </div>
     </section>
 
-    <!-- 🌟 Featured Products -->
+    <!-- 🌟 Featured Products Grid -->
     <section class="pt-10 pb-16 px-6 sm:px-8 max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-white mb-10">Featured Picks</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -75,12 +79,12 @@ try {
             </div>
           ))
         ) : (
-          <p class="text-center text-white/60 col-span-3">No featured products found at the moment.</p>
+          <p class="text-center text-white/60 col-span-3">No featured products available — check back soon!</p>
         )}
       </div>
     </section>
 
-    <!-- 🔧 Value Proposition -->
+    <!-- 💡 Value Proposition -->
     <section class="py-16 px-6 sm:px-8 max-w-5xl mx-auto grid gap-12 lg:grid-cols-3 text-white/70">
       <div class="text-center">
         <h3 class="text-xl font-semibold text-white mb-3">Authentic Curation</h3>
@@ -96,7 +100,7 @@ try {
       </div>
     </section>
 
-    <!-- 🧭 Call to Action -->
+    <!-- 🧭 CTA Section -->
     <section class="text-center py-16 bg-gradient-to-r from-slate-800 to-slate-900 text-white">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6">Your Next Favorite Find Starts Here</h2>
       <a
