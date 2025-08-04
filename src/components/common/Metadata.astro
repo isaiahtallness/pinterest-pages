@@ -7,7 +7,6 @@ import type { Props as AstroSeoProps } from '@astrolib/seo'
 import { SITE, METADATA, I18N } from 'astrowind:config'
 import type { MetaData } from '~/types'
 import { getCanonical } from '~/utils/permalinks'
----
 
 const {
   title,
@@ -57,12 +56,4 @@ const seoProps: AstroSeoProps = merge(
     titleTemplate: ignoreTitleTemplate ? '%s' : undefined,
     canonical: canonical,
     noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
-    nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
-    description: description,
-    twitter: twitter,
-  }
-)
----
-
-<AstroSeo {...seoProps} />
-
+    nofollow: typeof robots?.follow !== 'undefined' ? !
