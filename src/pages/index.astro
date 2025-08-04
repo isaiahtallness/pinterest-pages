@@ -7,7 +7,7 @@ const productsDir = path.resolve('./src/content/products');
 const files = await fs.readdir(productsDir);
 
 const featured = await Promise.all(
-  files.slice(0, 3).map(async (file) => {
+  files.slice(-3).map(async (file) => {
     const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
     return {
       slug: file.replace('.json', ''),
@@ -24,7 +24,7 @@ const featured = await Promise.all(
     <!-- 🍊 Accent bar (changed to white) -->
     <div class="w-full h-3 bg-white"></div>
 
-    <!-- 🖼️ Hero Banner Strip - cleaned up -->
+    <!-- 🖼️ Hero Banner Strip -->
     <section class="relative h-[260px] sm:h-[300px] md:h-[360px] flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0">
         <img
