@@ -1,30 +1,45 @@
 ---
+// 🌐 Module Imports
 import Layout from '~/layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const productsDir = path.resolve('./src/content/products');
-const files = await fs.readdir(productsDir);
+// 📁 Products Directory (adjusted for pinterest-pages structure)
+const productsDir = path.resolve('./pinterest-pages/src/content/products');
 
-const featured = await Promise.all(
-  files.slice(-3).map(async (file) => {
-    const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
-    return {
-      slug: file.replace('.json', ''),
-      title: data.title,
-      description: data.description,
-      image: data.image,
-    };
-  })
-);
+// 🌟 Load Featured Products with Fallback
+let featured = [];
+
+try {
+  const files = await fs.readdir(productsDir);
+  featured = await Promise.all(
+    files.slice(-3).map(async (file) => {
+      try {
+        const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
+        return {
+          slug: file.replace('.json', ''),
+          title: data.title,
+          description: data.description,
+          image: data.image,
+        };
+      } catch (err) {
+        console.warn(`Failed to parse ${file}:`, err);
+        return null;
+      }
+    })
+  );
+  featured = featured.filter(Boolean);
+} catch (err) {
+  console.error('Failed to read products directory:', err);
+}
 ---
 
 <Layout>
   <main class="bg-slate-900 text-white min-h-screen">
-    <!-- 🍊 Accent bar (changed to white) -->
+    <!-- 🍊 Accent bar -->
     <div class="w-full h-3 bg-white"></div>
 
-    <!-- 🖼️ Hero Banner Strip -->
+    <!-- 🖼️ Hero Banner -->
     <section class="relative h-[260px] sm:h-[300px] md:h-[360px] flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0">
         <img
@@ -35,29 +50,33 @@ const featured = await Promise.all(
       </div>
     </section>
 
-    <!-- 🌟 Featured Products Section -->
+    <!-- 🌟 Featured Products -->
     <section class="pt-10 pb-16 px-6 sm:px-8 max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-white mb-10">Featured Picks</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((item) => (
-          <div class="bg-slate-800 rounded-xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
-            <div class="w-full aspect-[4/3] rounded-md overflow-hidden">
-              <img
-                src={item.image}
-                alt={item.title}
-                class="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-300"
-              />
+        {featured.length > 0 ? (
+          featured.map((item) => (
+            <div class="bg-slate-800 rounded-xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
+              <div class="w-full aspect-[4/3] rounded-md overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  class="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <h3 class="text-xl font-semibold text-white/90 mt-4">{item.title}</h3>
+              <p class="text-white/70 text-sm mt-2">{item.description}</p>
+              <a
+                href={`/products/${item.slug}`}
+                class="text-orange-400 hover:text-orange-300 font-medium mt-4 inline-block"
+              >
+                Shop Now →
+              </a>
             </div>
-            <h3 class="text-xl font-semibold text-white/90 mt-4">{item.title}</h3>
-            <p class="text-white/70 text-sm mt-2">{item.description}</p>
-            <a
-              href={`/products/${item.slug}`}
-              class="text-orange-400 hover:text-orange-300 font-medium mt-4 inline-block"
-            >
-              Shop Now →
-            </a>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p class="text-center text-white/60 col-span-3">No featured products found at the moment.</p>
+        )}
       </div>
     </section>
 
@@ -77,7 +96,7 @@ const featured = await Promise.all(
       </div>
     </section>
 
-    <!-- 🧭 CTA -->
+    <!-- 🧭 Call to Action -->
     <section class="text-center py-16 bg-gradient-to-r from-slate-800 to-slate-900 text-white">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6">Your Next Favorite Find Starts Here</h2>
       <a
