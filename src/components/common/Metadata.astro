@@ -22,7 +22,7 @@ const seoProps: AstroSeoProps = merge(
   {
     title: '',
     titleTemplate: '%s',
-    canonical: canonical,
+    canonical,
     noindex: true,
     nofollow: true,
     description: undefined,
@@ -52,8 +52,32 @@ const seoProps: AstroSeoProps = merge(
     twitter: METADATA?.twitter,
   },
   {
-    title: title,
+    title,
     titleTemplate: ignoreTitleTemplate ? '%s' : undefined,
-    canonical: canonical,
+    canonical,
     noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
-    nofollow: typeof robots?.follow !== 'undefined' ? !
+    nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
+    description,
+    openGraph: {
+      url: canonical,
+      site_name: SITE?.name,
+      images: [
+        {
+          url: defaultImage.src,
+          width: 1200,
+          height: 628,
+        },
+      ],
+      locale: I18N?.language || 'en',
+      type: 'website',
+      ...openGraph,
+    },
+    twitter: {
+      ...twitter,
+      cardType: openGraph?.images?.length ? 'summary_large_image' : 'summary',
+    },
+  }
+)
+---
+
+<AstroSeo {...seoProps} />
