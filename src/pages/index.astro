@@ -24,27 +24,31 @@ const featured = await Promise.all(
     <!-- 🍊 Accent bar -->
     <div class="w-full h-3 bg-gradient-to-r from-orange-500 to-orange-700"></div>
 
-    <!-- 🖼️ Hero Banner -->
-    <section class="relative h-[500px] flex flex-col items-center justify-center text-center px-4 sm:px-6 space-y-6">
-      <!-- 🔶 Logo Animation -->
-      <img
-        src="/dealfinder-logo2.jpeg"
-        alt="DealFinder Blog Logo"
-        class="h-40 md:h-48 animate-pulse drop-shadow-lg transition-transform duration-500 hover:scale-105"
-      />
+    <!-- 🖼️ Hero Banner Strip -->
+    <section class="relative h-[260px] sm:h-[300px] md:h-[360px] flex items-center justify-center text-center px-4 sm:px-6 overflow-hidden">
+      <div class="absolute inset-0">
+        <img
+          src="/dealfinder-logo2.jpeg"
+          alt="DealFinder Blog Banner"
+          class="w-full object-cover object-center h-full scale-[1.2]"
+        />
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+      </div>
 
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading tracking-tight">
-        DealFinder Blog
-      </h1>
-      <p class="text-lg sm:text-xl leading-relaxed max-w-2xl">
-        Discover smart recommendations, trusted insights, and real value. Curated by Isaiah to transform browsing into discovery.
-      </p>
-      <a
-        href="/products/sample-product"
-        class="btn btn-primary text-lg inline-block px-8 py-3 mt-2 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
-      >
-        Explore Featured Picks
-      </a>
+      <div class="relative z-10 space-y-4 max-w-2xl px-4">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold font-heading tracking-tight text-white">
+          DealFinder Blog
+        </h1>
+        <p class="text-md sm:text-lg text-white/90 leading-relaxed">
+          Trusted Picks for Everyday Wins.
+        </p>
+        <a
+          href="/products/sample-product"
+          class="btn btn-primary text-lg inline-block px-8 py-3 mt-2 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
+        >
+          Explore Featured Picks
+        </a>
+      </div>
     </section>
 
     <!-- 🌟 Featured Products Section -->
