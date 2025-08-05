@@ -1,54 +1,30 @@
 ---
-// 🌐 Imports
 import Layout from '~/layouts/Layout.astro';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-// 🧭 Robust Featured Product Loader
-let featured = [];
+const productsDir = path.resolve('./src/content/products');
+const files = await fs.readdir(productsDir);
 
-try {
-  // ✅ Resolve path relative to current module file
-  const productsDir = new URL('../src/content/products', import.meta.url).pathname;
-  console.log('Resolved productsDir:', productsDir);
-
-  const files = (await fs.readdir(productsDir))
-    .filter(f => f.endsWith('.json'))
-    .sort(); // predictable order
-
-  if (!files.length) console.warn('⚠️ No JSON files found in products directory');
-
-  const all = await Promise.all(
-    files.map(async (file) => {
-      try {
-        const raw = await fs.readFile(`${productsDir}/${file}`, 'utf-8');
-        const data = JSON.parse(raw);
-        return {
-          slug: file.replace('.json', ''),
-          title: data.title,
-          description: data.description,
-          image: data.image,
-        };
-      } catch (err) {
-        console.warn(`🚫 Failed to parse ${file}:`, err);
-        return null;
-      }
-    })
-  );
-
-  featured = all.filter(Boolean).slice(-3);
-  console.log('✅ Featured products:', featured.length);
-} catch (err) {
-  console.error('❌ Error loading featured products:', err);
-}
+const featured = await Promise.all(
+  files.slice(0, 3).map(async (file) => {
+    const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
+    return {
+      slug: file.replace('.json', ''),
+      title: data.title,
+      description: data.description,
+      image: data.image,
+    };
+  })
+);
 ---
 
 <Layout>
   <main class="bg-slate-900 text-white min-h-screen">
-    <!-- 🍊 Accent Bar -->
+    <!-- 🍊 Accent bar (changed to white) -->
     <div class="w-full h-3 bg-white"></div>
 
-    <!-- 🖼️ Hero Banner -->
+    <!-- 🖼️ Hero Banner Strip - cleaned up -->
     <section class="relative h-[260px] sm:h-[300px] md:h-[360px] flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0">
         <img
@@ -59,37 +35,33 @@ try {
       </div>
     </section>
 
-    <!-- 🌟 Featured Products -->
+    <!-- 🌟 Featured Products Section -->
     <section class="pt-10 pb-16 px-6 sm:px-8 max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold text-center text-white mb-10">Featured Picks</h2>
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.length > 0 ? (
-          featured.map((item) => (
-            <div class="bg-slate-800 rounded-xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
-              <div class="w-full aspect-[4/3] rounded-md overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  class="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-              <h3 class="text-xl font-semibold text-white/90 mt-4">{item.title}</h3>
-              <p class="text-white/70 text-sm mt-2">{item.description}</p>
-              <a
-                href={`/products/${item.slug}`}
-                class="text-orange-400 hover:text-orange-300 font-medium mt-4 inline-block"
-              >
-                Shop Now →
-              </a>
+        {featured.map((item) => (
+          <div class="bg-slate-800 rounded-xl shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300">
+            <div class="w-full aspect-[4/3] rounded-md overflow-hidden">
+              <img
+                src={item.image}
+                alt={item.title}
+                class="w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-300"
+              />
             </div>
-          ))
-        ) : (
-          <p class="text-center text-white/60 col-span-3">No featured products available right now.</p>
-        )}
+            <h3 class="text-xl font-semibold text-white/90 mt-4">{item.title}</h3>
+            <p class="text-white/70 text-sm mt-2">{item.description}</p>
+            <a
+              href={`/products/${item.slug}`}
+              class="text-orange-400 hover:text-orange-300 font-medium mt-4 inline-block"
+            >
+              Shop Now →
+            </a>
+          </div>
+        ))}
       </div>
     </section>
 
-    <!-- 💡 Value Proposition -->
+    <!-- 🔧 Value Proposition -->
     <section class="py-16 px-6 sm:px-8 max-w-5xl mx-auto grid gap-12 lg:grid-cols-3 text-white/70">
       <div class="text-center">
         <h3 class="text-xl font-semibold text-white mb-3">Authentic Curation</h3>
@@ -105,5 +77,16 @@ try {
       </div>
     </section>
 
-    <!-- 🧭 CTA Section -->
-    <section class="text-center py-16 bg-gradient-to-r from-slate-800 to
+    <!-- 🧭 CTA -->
+    <section class="text-center py-16 bg-gradient-to-r from-slate-800 to-slate-900 text-white">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-6">Your Next Favorite Find Starts Here</h2>
+      <a
+        href="/products"
+        class="btn btn-primary text-lg px-10 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors duration-300"
+      >
+        Browse All Categories
+      </a>
+      <p class="mt-6 text-sm text-white/60">Curated. Reviewed. Trusted. #ad</p>
+    </section>
+  </main>
+</Layout>
