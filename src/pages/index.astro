@@ -7,15 +7,19 @@ const productsDir = path.resolve('./src/content/products');
 const files = await fs.readdir(productsDir);
 
 const featured = await Promise.all(
-  files.slice(0, 3).map(async (file) => {
-    const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
-    return {
-      slug: file.replace('.json', ''),
-      title: data.title,
-      description: data.description,
-      image: data.image,
-    };
-  })
+  files
+    .filter(file => file.endsWith('.json')) // ✅ Ensure only JSON files
+    .sort() // Optional: alphabetical sort for predictability
+    .slice(-3) // ✅ Grab the latest 3
+    .map(async (file) => {
+      const data = JSON.parse(await fs.readFile(`${productsDir}/${file}`, 'utf-8'));
+      return {
+        slug: file.replace('.json', ''),
+        title: data.title,
+        description: data.description,
+        image: data.image,
+      };
+    })
 );
 ---
 
